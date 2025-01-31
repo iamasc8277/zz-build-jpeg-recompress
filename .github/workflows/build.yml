@@ -22,3 +22,17 @@ jobs:
           docker create --name temp-container zz-build:${{ matrix.arch }}
           docker cp temp-container:/build/jpeg-archive/jpeg-recompress jpeg-recompress-${{ matrix.arch }}
           docker rm temp-container
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Release
+        run: |
+          gh release delete v2.2.0 --yes || true
+          gh release create v2.2.0 --title "v2.2.0"
+          gh release upload v2.2.0 ./jpeg-recompress-amd64 ./jpeg-recompress-arm64 --clobber
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
