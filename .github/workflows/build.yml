@@ -17,12 +17,13 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build, extract and release
         run: |
+          mkdir ${{ matrix.arch }}
           docker buildx create --use
-          docker buildx build --platform linux/${{ matrix.arch }} -t zz-build .
-          docker create --name temp-container zz-build
-          docker cp temp-container:/build/jpeg-archive/jpeg-recompress jpeg-recompress
+          docker buildx build --load --platform linux/${{ matrix.arch }} -t zz-build:${{ matrix.arch }} .
+          docker create --name temp-container zz-build:${{ matrix.arch }}
+          docker cp temp-container:/build/jpeg-archive/jpeg-recompress ./${{ matrix.arch }}/jpeg-recompress
           docker rm temp-container
           gh release delete "2.2.0-${{ matrix.arch }}" --yes || true
-          gh release create "2.2.0-${{ matrix.arch }}" jpeg-recompress --title "2.2.0-${{ matrix.arch }}"
+          gh release create "2.2.0-${{ matrix.arch }}" ${{ matrix.arch }}/jpeg-recompress --title "2.2.0-${{ matrix.arch }}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
