@@ -24,9 +24,7 @@ jobs:
           docker cp temp-container:/build/jpeg-archive/jpeg-recompress build/jpeg-recompress-${{ matrix.arch }}
           docker rm temp-container
       - name: Cache
-        uses: actions/cache@v2
-        env:
-          cache-name: zz-build-jpeg-recompress
+        uses: actions/cache/save@v4
         with:
           path: build
           key: build
