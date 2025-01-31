@@ -1,7 +1,6 @@
-# zz-builders
-## jpeg-recompress 2.2.0
+# zz-build-jpeg-recompress  &ensp; [![build](https://github.com/iamasc8277/zz-builders/actions/workflows/build.yml/badge.svg)](https://github.com/iamasc8277/zz-builders/actions/workflows/build.yml)
 
 build docker image and copy binary
 ```
-./jpeg-recompress.sh
+./build.sh
 ```
