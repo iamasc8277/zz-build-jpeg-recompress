@@ -15,15 +15,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Build, extract and release
+      - name: Build and extract
         run: |
-          mkdir ${{ matrix.arch }}
           docker buildx create --use
           docker buildx build --load --platform linux/${{ matrix.arch }} -t zz-build:${{ matrix.arch }} .
           docker create --name temp-container zz-build:${{ matrix.arch }}
-          docker cp temp-container:/build/jpeg-archive/jpeg-recompress ./${{ matrix.arch }}/jpeg-recompress
+          docker cp temp-container:/build/jpeg-archive/jpeg-recompress jpeg-recompress-${{ matrix.arch }}
           docker rm temp-container
-          gh release delete "2.2.0-${{ matrix.arch }}" --yes || true
-          gh release create "2.2.0-${{ matrix.arch }}" ${{ matrix.arch }}/jpeg-recompress --title "2.2.0-${{ matrix.arch }}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
