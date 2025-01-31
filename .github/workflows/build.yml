@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: [amd64, arm64]
+        arch: [amd64]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -32,7 +32,7 @@ jobs:
         run: |
           gh release delete v2.2.0 --yes || true
           gh release create v2.2.0 --title "v2.2.0"
-          gh release upload v2.2.0 ./jpeg-recompress-amd64 ./jpeg-recompress-arm64 --clobber
+          gh release upload v2.2.0 ./jpeg-recompress-amd64 --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
