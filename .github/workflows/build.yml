@@ -1,0 +1,54 @@
+name: build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: [amd64, arm64]  # Architekturmatrix für amd64 und arm64
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build Docker image for ${{ matrix.arch }}
+        run: |
+          docker buildx create --use  # Erstelle einen neuen Buildx Builder
+          docker buildx build \
+            --platform linux/${{ matrix.arch }} \
+            -t myimage:${{ matrix.arch }} \
+            .  # Hier wird das Dockerfile verwendet, um das Image zu bauen
+
+      - name: Extract binaries from Docker image for ${{ matrix.arch }}
+        run: |
+          # Extrahiere die Binaries aus dem Docker-Image
+          docker create --name temp-container myimage:${{ matrix.arch }}
+          docker cp temp-container:/build/jpeg-archive/jpeg-recompress ./jpeg-recompress-${{ matrix.arch }}
+          docker rm temp-container  # Lösche den Container
+      - name: Delete Existing Release (if exists)
+        run: |
+          gh release delete "2.2.0" --yes || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create New Release
+        run: |
+          gh release create "2.2.0" output/* --title "2.2.0"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
