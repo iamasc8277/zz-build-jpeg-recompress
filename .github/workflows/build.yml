@@ -17,17 +17,17 @@ jobs:
         uses: docker/setup-buildx-action@v2
       - name: Build and extract
         run: |
-          mkdir -p build
+          mkdir -p build-${{ matrix.arch }}
           docker buildx create --use
           docker buildx build --load --platform linux/${{ matrix.arch }} -t zz-build:${{ matrix.arch }} .
           docker create --name temp-container zz-build:${{ matrix.arch }}
-          docker cp temp-container:/build/jpeg-archive/jpeg-recompress build/jpeg-recompress-${{ matrix.arch }}
+          docker cp temp-container:/build/jpeg-archive/jpeg-recompress build-${{ matrix.arch }}/jpeg-recompress-${{ matrix.arch }}
           docker rm temp-container
       - name: Cache
         uses: actions/cache/save@v4
         with:
-          path: build
-          key: build
+          path: build-${{ matrix.arch }}
+          key: build-${{ matrix.arch }}
   release:
     needs: build
     permissions: write-all
@@ -38,12 +38,17 @@ jobs:
       - name: Restore cache
         uses: actions/cache/restore@v4
         with:
-          path: build
-          key: build
+          path: build-amd64
+          key: build-amd64
+      - name: Restore cache
+        uses: actions/cache/restore@v4
+        with:
+          path: build-arm64
+          key: build-arm64
       - name: Release
         run: |
           gh release create v2.2.0 --title "v2.2.0" || true
-          gh release upload v2.2.0 ./build/jpeg-recompress-amd64 ./build/jpeg-recompress-arm64 --clobber
+          gh release upload v2.2.0 ./build-amd64/jpeg-recompress-amd64 ./build-arm64/jpeg-recompress-arm64 --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
