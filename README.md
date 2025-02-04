@@ -1,6 +1,14 @@
-# zz-build-jpeg-recompress  &ensp; [![build](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml/badge.svg)](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml)
+# zz-build-jpeg-recompress:2.2.0  &ensp; [![build](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml/badge.svg)](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml)
 
-build docker image and copy binary
-```
-./build.sh
-```
+* download binary from [release 2.2.0](https://github.com/iamasc8277/zz-build-jpeg-recompress/releases/tag/v2.2.0)
+* build docker image
+  ```
+  docker build -t ghcr.io/iamasc8277/zz-jpeg-recompress .
+  ```
+* extract binary from docker image
+  ```
+  container_id=$(docker create ghcr.io/iamasc8277/zz-jpeg-recompress)
+  docker cp "$container_id:/build/jpeg-archive/jpeg-recompress" jpeg-recompress
+  docker rm "$container_id"
+  ./jpeg-recompress --version
+  ```
