@@ -2,7 +2,9 @@
 
 * download binary from [release 2.2.0](https://github.com/iamasc8277/zz-build-jpeg-recompress/releases/tag/v2.2.0)
 * pull docker image
+  ```
   docker pull ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
+  ```
 * build docker image
   ```
   docker build -t ghcr.io/iamasc8277/zz-jpeg-recompress:2.2.0 .
