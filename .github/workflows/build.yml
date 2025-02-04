@@ -24,7 +24,7 @@ jobs:
             -t ghcr.io/${{ github.repository_owner }}/zz-build-jpeg-recompress:2.2.0 \
             --push .
           mkdir -p build-${{ matrix.arch }}
-          docker create --name temp-container zz-build-jpeg-recompress:2.2.0
+          docker create --name temp-container ghcr.io/${{ github.repository_owner }}/zz-build-jpeg-recompress:2.2.0
           docker cp temp-container:/build/jpeg-archive/jpeg-recompress \
             build-${{ matrix.arch }}/jpeg-recompress-${{ matrix.arch }}
           docker rm temp-container
