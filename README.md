@@ -7,11 +7,11 @@
   ```
 * build docker image
   ```
-  docker build -t ghcr.io/iamasc8277/zz-jpeg-recompress:2.2.0 .
+  docker build -t ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0 .
   ```
 * extract binary from docker image
   ```
-  container_id=$(docker create ghcr.io/iamasc8277/zz-jpeg-recompress:2.2.0)
+  container_id=$(docker create ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0)
   docker cp "$container_id:/build/jpeg-archive/jpeg-recompress" jpeg-recompress
   docker rm "$container_id"
   ./jpeg-recompress --version
