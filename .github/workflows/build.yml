@@ -5,6 +5,7 @@ on:
 
 jobs:
   build:
+    permissions: write-all
     if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-22.04
     strategy:
