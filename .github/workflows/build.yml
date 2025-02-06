@@ -19,6 +19,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Create release
         run: gh release create v2.2.0 --title "v2.2.0" || true
         env:
