@@ -47,7 +47,7 @@ jobs:
           docker create --name temp-container ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
           docker cp temp-container:/build/jpeg-archive/jpeg-recompress jpeg-recompress-${{ matrix.arch }}
           docker rm temp-container
-          gh release upload v2.2.0 jpeg-recompress--${{ matrix.arch }} --clobber
+          gh release upload v2.2.0 jpeg-recompress-${{ matrix.arch }} --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
