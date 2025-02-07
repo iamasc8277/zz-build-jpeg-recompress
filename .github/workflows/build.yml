@@ -30,28 +30,3 @@ jobs:
             ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
             ghcr.io/iamasc8277/zz-build-jpeg-recompress:latest
           provenance: false
-      - name: Create release
-        run: gh release create v2.2.0 --title "v2.2.0" || true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  release:
-    needs: build
-    permissions: write-all
-    if: github.ref_name == github.event.repository.default_branch
-    runs-on: ubuntu-22.04
-    strategy:
-      matrix:
-        arch: [amd64, arm64]
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Build and extract
-        run: |
-          docker pull ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
-          docker create --name temp-container ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
-          docker cp temp-container:/build/jpeg-archive/jpeg-recompress jpeg-recompress-${{ matrix.arch }}
-          docker rm temp-container
-          gh release upload v2.2.0 jpeg-recompress-${{ matrix.arch }} --clobber
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
