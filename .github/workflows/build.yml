@@ -26,7 +26,9 @@ jobs:
         with:
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
+          tags: |
+            ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
+            ghcr.io/iamasc8277/zz-build-jpeg-recompress:latest
           provenance: false
       - name: Create release
         run: gh release create v2.2.0 --title "v2.2.0" || true
