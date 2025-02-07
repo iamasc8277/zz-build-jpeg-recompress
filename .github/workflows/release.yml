@@ -15,8 +15,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Extract and release
         run: |
-          gh release delete v2.2.0 -y || true
-          gh release create v2.2.0 --title "v2.2.0"
           docker pull --platform linux/amd64 ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
           docker create --platform linux/amd64 --name extract-container-amd64 ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
           docker cp extract-container-amd64:/build/jpeg-archive/jpeg-recompress jpeg-recompress-amd64
@@ -25,6 +23,8 @@ jobs:
           docker create --platform linux/arm64 --name extract-container-arm64 ghcr.io/iamasc8277/zz-build-jpeg-recompress:2.2.0
           docker cp extract-container-arm64:/build/jpeg-archive/jpeg-recompress jpeg-recompress-arm64
           docker rm extract-container-arm64
+          gh release delete v2.2.0 -y || true
+          gh release create v2.2.0 --title "v2.2.0"
           gh release upload v2.2.0 jpeg-recompress-amd64 jpeg-recompress-arm64 --clobber
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
