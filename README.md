@@ -1,4 +1,5 @@
-# zz-build-jpeg-recompress:2.2.0 &ensp; [![build](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml/badge.svg)](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml) &ensp; [![release](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/release.yml/badge.svg)](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/release.yml)
+# zz-build-jpeg-recompress:2.2.0
+[![build](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml/badge.svg)](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/build.yml) &ensp; [![release](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/release.yml/badge.svg)](https://github.com/iamasc8277/zz-build-jpeg-recompress/actions/workflows/release.yml)
 
 * download binary from [release 2.2.0](https://github.com/iamasc8277/zz-build-jpeg-recompress/releases/tag/v2.2.0)
 * pull docker image
