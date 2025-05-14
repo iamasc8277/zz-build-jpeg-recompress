@@ -19,8 +19,6 @@ jobs:
 
       - name: Build multi-platform image
         run: |
-          podman run --rm --privileged quay.io/podman/stable podman machine init
-          podman machine start
           podman build --platform linux/amd64,linux/arm64 -t zz-jpeg-recompress-podman:latest .
           podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
           podman push zz-jpeg-recompress-podman:latest
