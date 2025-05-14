@@ -7,18 +7,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Check out code
+        uses: actions/checkout@v3
       - name: Install Podman
         run: |
           . /etc/os-release
           echo "Installing Podman..."
-          sudo apt update
-          sudo apt -y install podman qemu-user-static
-
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      - name: Build multi-platform image
-        run: |
-          podman build --platform linux/amd64,linux/arm64 -t zz-jpeg-recompress-podman:latest .
+          apt update
+          apt -y install podman qemu-user-static binfmt-support
+          qemu-user-static --reset -p yes
           podman login ghcr.io -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
-          podman push zz-jpeg-recompress-podman:latest
+          podman build --push --platform linux/amd64,linux/arm64 -t zz-jpeg-recompress-podman:latest .
